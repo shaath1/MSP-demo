@@ -1,0 +1,49 @@
+{
+  "aliases":{
+  },
+  "mapping": {
+    "f5.telemetry": {
+      "properties": {
+        "@timestamp": {
+          "type": "date"
+             },
+            "client_ip": {
+              "type": "ip"
+            },
+            "date_time": {
+              "type": "date"
+            },
+            "dest_ip": {
+              "type": "ip"
+            },
+            "event_timestamp": {
+              "type": "date"
+            },
+            "ip_client": {
+              "type": "ip"
+            },
+            "server_ip": {
+              "type": "ip"
+            },
+            "virtual_ip": {
+              "type": "ip"
+            },
+            "ip": {
+              "type": "ip"
+            }
+         }
+      }
+    },
+"settings":{
+  "index":{
+    "number_of_shards":"1",
+    "number_of_replicas":"1",
+    "mapping": {
+      "total_fields": {
+        "limit": "100000"
+      },
+      "ignore_malformed": "true"
+      }
+    }
+  }
+}

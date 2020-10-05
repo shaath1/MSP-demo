@@ -1,0 +1,26 @@
+{
+    "class": "Telemetry",
+    "My_System": {
+        "class": "Telemetry_System",
+        "allowSelfSignedCert": true,
+        "systemPoller": {
+            "interval": 60
+        }
+    },    
+    "My_Consumer": {
+        "class": "Telemetry_Consumer",
+        "type": "ElasticSearch",
+        "host": "{{ elk_private_ip }}",
+        "index": "bigip",
+        "port": 5044,
+        "protocol": "http",
+        "trace": true,
+        "allowSelfSignedCert": true,
+        "dataType": "f5.telemetry",
+        "apiVersion": "6.7"
+    },
+    "My_Listener": {
+        "class": "Telemetry_Listener",
+        "port": 6514
+    }
+}

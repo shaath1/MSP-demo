@@ -1,0 +1,36 @@
+---
+## Your personal variables
+owner: changeme
+
+## AWS variables
+aws:
+    region: eu-west-1
+    environment: forum-demo
+    ec2_key_name: changeme
+    azs: [ eu-west-1a ]
+
+## BIG-IP and BIG-IQ variables
+bigip:
+    admin_user: admin
+    admin_password: "changeme"
+
+bigiq:
+    address: 88.84.155.36
+    admin_user: admin
+    admin_password: "changeme"
+    license_pool: byol-pool
+
+## Automation Toolchain variables
+atc:
+    tenant: Team_A
+    application: NginxWebServer
+    waf_profile: LinuxHigh
+    elk_log_profile: ElkLogProfile
+
+equinix:
+    device_address: 88.84.155.38
+    device_virtual_server: 88.84.155.37
+
+## Nginx Webserver variables
+webserver:
+    displayname: Nginx Demo WebServer

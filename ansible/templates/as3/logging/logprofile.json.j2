@@ -1,0 +1,96 @@
+{
+  "class": "AS3",
+  "action": "deploy",
+  "declaration": {
+    "class": "ADC",
+    "schemaVersion": "3.10.0",
+    "remark": "Example depicting creation of BIG-IP module log profiles",
+    "Common": {
+      "Shared": {
+        "class": "Application",
+        "template": "shared",
+        "telemetryLocalRule": {
+          "remark": "Only required when TS is a local listener",
+          "class": "iRule",
+          "iRule": "when CLIENT_ACCEPTED {\n  node 127.0.0.1 6514\n}"
+        },
+        "{{ atc.elk_log_profile }}VIP": {
+          "remark": "Only required when TS is a local listener",
+          "class": "Service_TCP",
+          "virtualAddresses": [
+            "255.255.255.254"
+          ],
+          "virtualPort": 6514,
+          "iRules": [
+            "telemetryLocalRule"
+          ]
+        },
+        "{{ atc.elk_log_profile }}Pool": {
+          "class": "Pool",
+          "members": [
+            {
+              "enable":true,
+              "serverAddresses": [
+                "255.255.255.254"
+              ],
+              "servicePort":6514
+            }
+          ],
+          "monitors": [
+            {
+              "bigip": "/Common/tcp"
+            }
+          ]
+        },
+        "telemetry_security_log_profile": {
+          "class": "Security_Log_Profile",
+          "application": {
+            "localStorage": false,
+            "remoteStorage": "splunk",
+            "protocol": "tcp",
+            "servers": [
+              {
+                  "address": "255.255.255.254",
+                  "port": "6514"
+              }
+            ],
+            "storageFilter": {
+                    "requestType": "all"
+            }
+          }
+        },
+        "{{ atc.elk_log_profile }}": {
+          "class": "Traffic_Log_Profile",
+          "requestSettings": {
+            "requestEnabled": true,
+            "requestErrorLoggingEnabled": true,
+            "requestProtocol": "mds-tcp",
+            "requestErrorProtocol": "mds-tcp",
+            "requestPool": {
+              "use": "{{ atc.elk_log_profile }}Pool"
+            },
+            "requestErrorPool": {
+              "use": "{{ atc.elk_log_profile }}Pool"
+            },
+            "requestTemplate": "event_source=\"request_logging\",hostname=\"$BIGIP_HOSTNAME\",client_ip=\"$CLIENT_IP\",client_port=\"$CLIENT_PORT\",server_ip=\"$SERVER_IP\",server_port=\"$SERVER_PORT\",http_method=\"$HTTP_METHOD\",http_uri=\"$HTTP_URI\",http_status=\"$HTTP_STATCODE\",virtual_ip=\"$VIRTUAL_IP\",virtual_name=\"$VIRTUAL_NAME\",virtual_pool_name=\"$VIRTUAL_POOL_NAME\",event_timestamp=\"$DATE_HTTP\",response_size=\"$RESPONSE_SIZE\",response_msecs=\"$RESPONSE_MSECS\"",
+            "requestErrorTemplate": "event_source=\"request_error\",hostname=\"$BIGIP_HOSTNAME\",client_ip=\"$CLIENT_IP\",client_port=\"$CLIENT_PORT\",server_ip=\"$SERVER_IP\",server_port=\"$SERVER_PORT\",http_method=\"$HTTP_METHOD\",http_uri=\"$HTTP_URI\",http_status=\"$HTTP_STATCODE\",virtual_ip=\"$VIRTUAL_IP\",virtual_name=\"$VIRTUAL_NAME\",virtual_pool_name=\"$VIRTUAL_POOL_NAME\",event_timestamp=\"$DATE_HTTP\",response_size=\"$RESPONSE_SIZE\",response_msecs=\"$RESPONSE_MSECS\""
+          },
+          "responseSettings": {
+            "responseEnabled": true,
+            "responseErrorLoggingEnabled": true,
+            "responseProtocol": "mds-tcp",
+            "responseErrorProtocol": "mds-tcp",
+            "responsePool": {
+              "use": "{{ atc.elk_log_profile }}Pool"
+            },
+            "responseErrorPool": {
+              "use": "{{ atc.elk_log_profile }}Pool"
+            },
+            "responseTemplate": "event_source=\"response_logging\",hostname=\"$BIGIP_HOSTNAME\",client_ip=\"$CLIENT_IP\",client_port=\"$CLIENT_PORT\",server_ip=\"$SERVER_IP\",server_port=\"$SERVER_PORT\",http_method=\"$HTTP_METHOD\",http_uri=\"$HTTP_URI\",http_status=\"$HTTP_STATCODE\",virtual_ip=\"$VIRTUAL_IP\",virtual_name=\"$VIRTUAL_NAME\",virtual_pool_name=\"$VIRTUAL_POOL_NAME\",event_timestamp=\"$DATE_HTTP\",response_size=\"$RESPONSE_SIZE\",response_msecs=\"$RESPONSE_MSECS\"",
+            "responseErrorTemplate": "event_source=\"response_error\",hostname=\"$BIGIP_HOSTNAME\",client_ip=\"$CLIENT_IP\",client_port=\"$CLIENT_PORT\",server_ip=\"$SERVER_IP\",server_port=\"$SERVER_PORT\",http_method=\"$HTTP_METHOD\",http_uri=\"$HTTP_URI\",http_status=\"$HTTP_STATCODE\",virtual_ip=\"$VIRTUAL_IP\",virtual_name=\"$VIRTUAL_NAME\",virtual_pool_name=\"$VIRTUAL_POOL_NAME\",event_timestamp=\"$DATE_HTTP\",response_size=\"$RESPONSE_SIZE\",response_msecs=\"$RESPONSE_MSECS\""
+          }
+        }
+      }
+    }
+  }
+}

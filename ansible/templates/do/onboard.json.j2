@@ -1,0 +1,37 @@
+{
+  "schemaVersion": "1.11.1",
+  "class": "Device",
+  "async": true,
+  "label": "Onboard and License BIG-IP using BIG-IQ with no route",
+  "Common": {
+    "class": "Tenant",
+    "myDns": {
+      "class": "DNS",
+      "nameServers": [
+        "8.8.8.8"
+      ],
+      "search": [
+        "f5demo.eu"
+      ]
+    },
+    "myNtp": {
+      "class": "NTP",
+      "servers": [
+        "0.pool.ntp.org",
+        "1.pool.ntp.org",
+        "2.pool.ntp.org"
+      ],
+      "timezone": "UTC"
+    },
+    "admin": {
+      "class": "User",
+      "userType": "regular",
+      "password": "f5letme1n",
+      "shell": "bash"
+    },
+    "myProvisioning": {
+      "class": "Provision",
+      "asm": "nominal"
+    }
+  }
+}

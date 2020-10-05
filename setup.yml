@@ -1,0 +1,27 @@
+---
+## Your personal variables
+owner: udf
+
+## AWS variables
+aws:
+    region: us-west-2
+    environment: forum-demo
+    ec2_key_name: ec2keypair
+    azs: [ us-west-2a ]
+
+## BIG-IP and BIG-IQ variables
+bigip:
+    admin_user: admin
+    admin_password: "f5letme1n"
+
+## Automation Toolchain variables
+atc:
+    tenant: customer1
+    application: NginxWebServer
+    waf_profile: LinuxHigh
+    elk_log_profile: ElkLogProfile
+    elk_security_log_profile: ElkSecurityLogProfile
+
+## Nginx Webserver variables
+webserver:
+    displayname: Nginx Demo WebServer

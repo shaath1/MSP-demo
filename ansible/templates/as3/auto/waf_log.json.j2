@@ -1,0 +1,73 @@
+{
+  "class": "AS3",
+  "action": "deploy",
+  "declaration": {
+    "class": "ADC",
+    "schemaVersion": "3.7.0",
+    "id": "DemoWebServers",
+    "label": "DemoWebServers",
+    "remark": "DemoWebServers",
+    "{{ atc.tenant }}": {
+      "class": "Tenant",
+      "{{ atc.application }}": {
+        "class": "Application",
+        "template": "generic",
+        "WebServerVIP": {
+          "class": "Service_HTTPS",
+          "virtualAddresses": ["0.0.0.0"],
+          "snat": "auto",
+          "pool": "WebServerPoolHttps",
+          "profileHTTP": "basic",
+          "serverTLS": "WebTLS",
+          "policyWAF": {
+						"use": "{{ atc.waf_profile }}"
+					},
+          "profileTrafficLog": {
+            "bigip": "/Common/Shared/{{ atc.elk_log_profile }}"
+          }
+        },
+        "WebServerPoolHttps": {
+          "class": "Pool",
+          "monitors": ["http"],
+          "reselectTries": 100,
+          "members": [
+            {
+              "servicePort": 80,
+              "addressDiscovery": "aws",
+              "updateInterval": 30,
+              "tagKey": "Autodiscovery",
+              "tagValue": "true",
+              "addressRealm": "private",
+              "accessKeyId": "{{ aws_access_key_id }}",
+              "secretAccessKey": "{{ aws_secret_access_key }}",
+              "region": "{{ placement.region }}",
+              "credentialUpdate": true
+            }
+          ]
+        },
+        "WebTLS": {
+          "class": "TLS_Server",
+          "certificates": [
+            {
+              "certificate": "WebCert"
+            }
+          ]
+        },
+        "WebCert": {
+          "class": "Certificate",
+          "certificate": {
+            "bigip": "/Common/default.crt"
+          },
+          "privateKey": {
+            "bigip": "/Common/default.key"
+          }
+        },
+        "{{ atc.waf_profile }}": {
+			    "class": "WAF_Policy",
+    		  "url": "https://raw.githubusercontent.com/f5devcentral/f5-automation-labs/master/files/asm-policies/demo-asm-policy-linux-high.xml",
+			    "ignoreChanges": true
+        }
+      }
+    }
+  }
+}
