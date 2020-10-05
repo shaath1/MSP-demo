@@ -1,4 +1,4 @@
-# AWS Forum Demo 2020
+# MSP demo
 
 ## Introduction
 
@@ -19,15 +19,8 @@ The following things are needed to run the demo
  - make installed on host to run the target
  - terraform installed on host to run the infrastructure part
  - ansible installed on host to run the ATC part
- - local **aws credentials should be available** using the aws cli
 
-    ```
-    $ cat ~/.aws/credentials
-        [default]
-        aws_access_key_id = BLABLABLA
-        aws_secret_access_key = BLABLABLA
-        aws_session_token = BLABLABLA
-    ```
+
 **NOTE:** In order to use dynamic AS3 service discovery (using AWS tags), you need to request a new AWS user with programmatic access and use this one instead of your primary AWS account, which is protected with temporary session tokens.
 
 You will also need to copy setup.change.yml to setup.yml and adjust the file accordingly. Variables that are absolutely necessary are :
