@@ -7,6 +7,8 @@ The repository contains the **Terraform** and **Ansible** scripts to showcase th
 It uses Terraform to spin-up the infrastructure containing :
  - one or more BIG-IP's
  - one or more Nginx based demo servers
+ - Juiceshop Application
+ - ElasticSearch instance
 
 It will then use Ansible and the F5 ATC to do :
  - Declarative Onboarding (**DO**) using BIG-IQ as license server
