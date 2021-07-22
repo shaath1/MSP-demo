@@ -1,8 +1,8 @@
 {
-  "schemaVersion": "1.11.1",
+  "schemaVersion": "1.21.0",
   "class": "Device",
   "async": true,
-  "label": "Onboard and License BIG-IP using BIG-IQ with no route",
+  "label": "Onboard and License BIG-IP",
   "Common": {
     "class": "Tenant",
     "myDns": {
@@ -23,15 +23,20 @@
       ],
       "timezone": "UTC"
     },
-    "admin": {
-      "class": "User",
-      "userType": "regular",
-      "password": "f5letme1n",
-      "shell": "bash"
-    },
     "myProvisioning": {
       "class": "Provision",
       "asm": "nominal"
+    },
+     "internal": {
+     "class": "VLAN",
+     "tag": 4094,
+     "mtu": 9001,
+     "interfaces": [
+         {
+             "name": "1.0",
+             "tagged": false
+         }
+     ]
     }
   }
 }
