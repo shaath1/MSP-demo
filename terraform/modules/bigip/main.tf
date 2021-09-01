@@ -82,7 +82,6 @@ resource "aws_network_interface" "private" {
     Owner       = var.owner
   }
 }
-
 #
 # Deploy BIG-IP
 #
@@ -90,7 +89,7 @@ resource "aws_instance" "f5_bigip" {
   # determine the number of BIG-IPs to deploy
   count                = var.f5_instance_count
   instance_type        = var.ec2_instance_type
-  ami                  = "ami-042ff32d1f7677784"
+  ami                  = "ami-00cf39e517abf14a6"
   iam_instance_profile = aws_iam_instance_profile.bigip_profile.name
   key_name             = var.ec2_key_name
   monitoring           = true
