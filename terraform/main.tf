@@ -159,7 +159,7 @@ module juiceshop {
 }
 
 #
-# Create Autodiscovery WebServers
+# Create NGINX APP Protect
 #
 module webserver {
   source = "./modules/webserver"
@@ -171,9 +171,10 @@ module webserver {
   ec2_key_name = local.setup.aws.ec2_key_name
   color        = ["ff5e13", "0072bb"]
   color_tag    = ["orange", "blue"]
-  server_count = 2
+  server_count = 1
 
   sec_group_ids = [
+    module.security.ssh_secure_sg,
     module.security.web_server_sg,
     module.security.web_server_secure_sg
   ]
